@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block crud_container %}
+    {% if user %}
+        <h1>Welcome, {{ user.username }}</h1>
+    {% endif %}
+{% endblock %}

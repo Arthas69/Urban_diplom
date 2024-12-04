@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block crud_container %}
+    {% if user %}
+        <h1>Hello, {{ user,username }}</h1>
+    {% endif %}
+<!--<a href="{{ url_for( 'read_users_me' ) }}"></a>-->
+{% endblock %}

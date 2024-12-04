@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block crud_container %}
+    <h1>Войти</h1>
+    <form action="{{ url_for( 'login_with_token' ) }}" method="post">
+        <label for="username">Имя</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Войти">
+    </form>
+    <p>Не зарегистрированы? <a href="{{ url_for( 'register' ) }}">Зарегистрироваться</a></p>
+{% endblock %}
