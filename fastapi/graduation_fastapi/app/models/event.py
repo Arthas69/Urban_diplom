@@ -4,6 +4,7 @@ from sqlalchemy import ForeignKey
 from app.backend.db import Base
 from datetime import datetime
 
+
 class Event(Base):
     __tablename__ = "events"
 

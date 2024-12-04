@@ -19,7 +19,7 @@
                     {% if weather_desc %}
                         <p class="card-text">Description: {{ weather_desc }}</p>
                     {% endif %}
-                    <a href="{{ url_for('weather.add_city', city_id=city_id) }}" class="btn btn-primary">BUTTON</a>
+                    <a href="{{ url_for('weather.add_city', city_id=city_id) }}" class="btn btn-success">Запомнить</a>
                 </div>
             </div>
         </div>

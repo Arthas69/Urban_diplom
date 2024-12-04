@@ -18,6 +18,7 @@ def get_weather_data(lat, lon):
     response = requests.get(complete_url)
     return response.json()
 
+
 def parse_data(data):
     main = data['main']
     content = {

@@ -21,7 +21,7 @@
                             {% if city.weather_desc %}
                                 <p class="card-text">Description: {{ city.weather_desc }}</p>
                             {% endif %}
-                            <a href="{{ url_for('weather.remove_city', city_id=city.city_id) }}" class="btn btn-primary">BUTTON</a>
+                            <a href="{{ url_for('weather.remove_city', city_id=city.city_id) }}" class="btn btn-danger">Забыть</a>
                         </div>
                     </div>
                 </div>

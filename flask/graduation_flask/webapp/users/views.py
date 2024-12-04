@@ -57,7 +57,7 @@ def process_login():
 
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user and user.check_password(form.password.data):  # Проверяем на наличие такого юзера и сравниваем его пароль(user.password) с паролем из формы
+        if user and user.check_password(form.password.data):
             login_user(user)
             return redirect(url_for('index'))
         else:
