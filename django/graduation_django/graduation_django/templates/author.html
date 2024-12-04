@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} Author {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4 text-center">Об авторе</h1>
+            <p class="lead text-center">
+                <strong>Имя:</strong> {{ author.first_name }} {{ author.last_name }}
+            </p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <h2>Books by {{ author.first_name }} {{ author.last_name }}</h2>
+            <ul class="list-group">
+                {% for book in author.books.all %}
+                    <li class="list-group-item">
+                        <a href="{% url 'view-book' book.id %}" class="btn btn-link">
+                            {{ book.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'index' %}" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

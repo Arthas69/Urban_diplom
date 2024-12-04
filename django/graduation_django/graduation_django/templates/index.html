@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %} Library {% endblock %}
+
+{% block content %}
+    <h1 class="text-center mb-4">Наши книги</h1>
+
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+    {% endif %}
+    {%if books %}
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+            {% for book in books %}
+
+                <div class="col">
+                    <div class="card book-card">
+                        <img src="https://via.placeholder.com/200x300" class="card-img-top book-image" alt="Обложка книги 1">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text">{{ book.description|truncatechars:50}}</p>
+                            <p><a href="{% url 'view-author' book.author.id %}">{{ book.author.first_name }} {{ book.author.last_name }}</a></p>
+
+                            <a href="{% url 'view-book' book.id %}" class="btn btn-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <p>No books found.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Book Details{% endblock %}
+
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            <img src="https://via.placeholder.com/150" class="img-fluid" alt="Book cover">
+        </div>
+        <div class="col-md-8">
+            <h1 class="display-4">{{ book.title }}</h1>
+            <h3 class="text-muted">Автор: <em><a href="{% url 'view-author' book.author.id %}">{{ book.author.first_name }} {{ book.author.last_name }}</a></em></h3>
+<!--            <p class="lead">-->
+<!--                <strong>Жанр:</strong> Фантастика, Драма-->
+<!--            </p>-->
+            <p>
+                <strong>Описание:</strong> {{ book.description }}
+            </p>
+        </div>
+    </div>
+<div class="container mt-5">
+    <h2>Отзывы</h2>
+    <div class="row">
+        {% for review in book.reviews.all %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ review.author.username }}</h5>
+                        <p class="card-text">{{ review.content|truncatechars:150 }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+    {% if request.user.is_authenticated %}
+        <form action="{% url 'view-book' book.id %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-success" type="submit">Отправить</button>
+        </form>
+    {% else %}
+        <p>To make a review, please, <a href="{% url 'login' %}?next={{ request.path }}">login</a></p>
+    {% endif %}
+{% endblock %}
