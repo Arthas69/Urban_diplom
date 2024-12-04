@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if cities %}
+        {% for city in cities %}
+            <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-auto">
+                        <img src="{{ city.icon }}" class="img-fluid" alt="">
+                    </div>
+                    <div class="col">
+                        <div class="card-block px-2">
+                            <h4 class="card-title">{{ city.name }}</h4>
+                            <p class="card-text">Temperature: {{ city.temperature }}&deg;C</p>
+                            {% if city.humidity %}
+                                <p class="card-text">Humidity: {{ city.humidity }}%</p>
+                            {% endif %}
+                            {% if city.visibility %}
+                                <p class="card-text">Visibility: {{ city.visibility }} km</p>
+                            {% endif %}
+                            {% if city.weather_desc %}
+                                <p class="card-text">Description: {{ city.weather_desc }}</p>
+                            {% endif %}
+                            <a href="{{ url_for('weather.remove_city', city_id=city.city_id) }}" class="btn btn-primary">BUTTON</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>No cities found.</p>
+    {% endif %}
+{% endblock %}

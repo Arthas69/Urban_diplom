@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form class="col-4" action="{{ url_for('weather.get_all_weather_data') }}" method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.city_name.label }}
+            {{ form.city_name() }}
+            {% for error in form.city_name.errors %}
+                <span style="color:red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        {{ form.submit() }}
+    </form>
+    <ul>
+        {% for city in cities %}
+            <li><a href="{{ url_for('weather.get_city_weather', city_id=city.id) }}">{{ city.name }}, {{ city.state }}, {{ city.country }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

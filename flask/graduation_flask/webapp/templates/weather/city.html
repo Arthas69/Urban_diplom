@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card">
+        <div class="row no-gutters">
+            <div class="col-auto">
+                <img src="{{ icon }}" class="img-fluid" alt="">
+            </div>
+            <div class="col">
+                <div class="card-block px-2">
+                    <h4 class="card-title">{{ name }}</h4>
+                    <p class="card-text">Temperature: {{ temperature }}&deg;C</p>
+                    {% if humidity %}
+                        <p class="card-text">Humidity: {{ humidity }}%</p>
+                    {% endif %}
+                    {% if visibility %}
+                        <p class="card-text">Visibility: {{ visibility }} km</p>
+                    {% endif %}
+                    {% if weather_desc %}
+                        <p class="card-text">Description: {{ weather_desc }}</p>
+                    {% endif %}
+                    <a href="{{ url_for('weather.add_city', city_id=city_id) }}" class="btn btn-primary">BUTTON</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+<button class="btn btn-success" onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+{% endblock %}
