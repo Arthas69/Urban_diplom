@@ -10,33 +10,35 @@ from sqlalchemy.orm import Session
 from secrets import compare_digest
 
 from app.backend.depends_db import get_db
-from app.config import ALGORITHM, SECRET_KEY
+from app.config import ALGORITHM, SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.main import oauth2_scheme
-from app.models import User
-from app.schemas import TokenData, UserCreate, Event, EventCreate
+from app.models import User, Event
+from app.schemas import TokenData, UserCreate, EventCreate
 
 
 def get_user(
         db: Annotated[Session, Depends(get_db)],
-        username: str):
+        username: str) -> User | None:
     return db.scalar(select(User).where(username == User.username))
 
 
-def authenticate_user(db: Annotated[Session, Depends(get_db)], username: str, password: str):
+def authenticate_user(
+        db: Annotated[Session, Depends(get_db)],
+        username: str,
+        password: str) -> User | None:
     user = get_user(db, username)
-    if not user:
-        return False
-    if not compare_digest(password, user.password):
-        return False
-    return user
+    if user and compare_digest(password, user.password):
+        return user
 
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(
+        data: dict,
+        expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -84,7 +86,10 @@ def get_events(db: Annotated[Session, Depends(get_db)], user_data: User):
     return db.scalars(select(Event).where(Event.owner_id == user_data.id)).all()
 
 
-def create_event(db: Annotated[Session, Depends(get_db)], event: EventCreate, user_id: int):
+def create_event(
+        db: Annotated[Session, Depends(get_db)],
+        event: EventCreate,
+        user_id: int):
     db_event = Event(**event.dict(), owner_id=user_id)
     db.add(db_event)
     db.commit()

@@ -42,12 +42,11 @@ async def register(
         password: Annotated[str, Form()],
         db: Annotated[Session, Depends(get_db)]):
     user = UserCreate(username=username, password=password)
-    print(Token)
     db_user = get_user(db, user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="Username already taken")
     create_user(db, user)
-    return RedirectResponse(url="/login/", status_code=status.HTTP_303_SEE_OTHER)
+    return RedirectResponse(url="/login/", status_code=status.HTTP_201_CREATED)
 
 
 @router.get("/login/", response_class=HTMLResponse)

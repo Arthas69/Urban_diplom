@@ -12,6 +12,10 @@ class EventCreate(EventBase):
     pass
 
 
+class EventUpdate(EventBase):
+    pass
+
+
 class Event(EventBase):
     id: int
     owner_id: int
