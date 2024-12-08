@@ -9,10 +9,15 @@ from .models import City
 
 from webapp import db
 
+
+# Create BP for weather views
 blueprint = Blueprint('weather', __name__, url_prefix='/weather')
 
 
 def get_weather_data(lat, lon):
+    """
+    Fetch weather data for given latitude and longitude.
+    """
     base_url = "https://api.openweathermap.org/data/2.5/weather?"
     complete_url = f"{base_url}appid={current_app.config['OPENWEATHERMAP_API_KEY']}&lat={lat}&lon={lon}"
     response = requests.get(complete_url)
@@ -20,6 +25,9 @@ def get_weather_data(lat, lon):
 
 
 def parse_data(data):
+    """
+    Parse weather data from API response.
+    """
     main = data['main']
     content = {
         'name': data['name'],
@@ -36,6 +44,9 @@ def parse_data(data):
 
 @blueprint.route('/', methods=['GET', 'POST'])
 def get_all_weather_data():
+    """
+    Get all cities with provided name.
+    """
     form = SearchForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -56,6 +67,9 @@ def get_all_weather_data():
 
 @blueprint.route('/<int:city_id>', methods=['GET', 'POST'])
 def get_city_weather(city_id):
+    """
+    Get weather data for specific city.
+    """
     city = City.query.get(city_id)
     if city:
         data = get_weather_data(city.lat, city.lon)
@@ -73,6 +87,9 @@ def get_city_weather(city_id):
 
 @blueprint.route('/my_cities')
 def my_cities():
+    """
+    Get weather data for cities user is subscribed to.
+    """
     cities = current_user.cities
     data = []
     for city in cities:
@@ -86,6 +103,9 @@ def my_cities():
 
 @blueprint.route('/add')
 def add_city():
+    """
+    Add city to user's subscriptions.
+    """
     try:
         idx = int(request.args.get('city_id'))
     except ValueError:
@@ -103,6 +123,9 @@ def add_city():
 
 @blueprint.route('/remove', methods=['GET'])
 def remove_city():
+    """
+    Remove city from user's subscriptions.
+    """
     try:
         idx = int(request.args.get('city_id'))
         print(idx)

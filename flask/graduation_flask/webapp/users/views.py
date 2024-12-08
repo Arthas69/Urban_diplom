@@ -7,11 +7,16 @@ from .models import User
 
 from webapp import db
 
+
+# Create BP for user views
 blueprint = Blueprint('users', __name__, url_prefix='/users')
 
 
 @blueprint.route('/registration', methods=['GET', 'POST'])
 def registration():
+    """
+    Renders the page with registration form
+    """
     title = 'Registration'
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -21,6 +26,11 @@ def registration():
 
 @blueprint.route('/process-registration', methods=['POST'])
 def process_registration():
+    """
+    Validates and processes the registration form
+    If the form is valid, creates a new User object and adds it to the database
+    If the form is not valid, re-renders the registration page with the form errors
+    """
     title = 'Registration'
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -43,6 +53,9 @@ def process_registration():
 
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Renders the page with login form
+    """
     title = 'Sign In'
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -53,6 +66,11 @@ def login():
 
 @blueprint.route('/process-login', methods=['POST'])
 def process_login():
+    """
+    Validates and processes the login form
+    If the form is valid, logs the user in and redirects to the index page
+    If the form is not valid, re-renders the login page with the form errors
+    """
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -71,6 +89,9 @@ def process_login():
 @blueprint.route('/<username>', methods=['GET', 'POST'])
 @login_required
 def profile(username):
+    """
+    Shows user's profile page
+    """
     if username != current_user.username:
         return redirect(url_for('index'))
     user = User.query.filter_by(username=username).first()
@@ -85,6 +106,9 @@ def profile(username):
 @blueprint.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
+    """
+    Allows user to edit their profile
+    """
     title = 'Edit profile'
     form = EditProfileForm()
     if request.method == 'POST':
@@ -106,6 +130,9 @@ def edit_profile():
 
 @blueprint.route('/logout')
 def logout():
+    """
+    Logs the user out and redirects to the login page
+    """
     flash('You have been logged out')
     logout_user()
     return redirect(url_for('users.login'))

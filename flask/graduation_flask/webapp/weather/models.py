@@ -1,5 +1,6 @@
 from webapp import db
 
+# Associations table between users and cities they saved
 associations = db.Table('associations',
                         db.Column('city_id', db.Integer, db.ForeignKey('cities.id')),
                         db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
@@ -7,6 +8,9 @@ associations = db.Table('associations',
 
 
 class City(db.Model):
+    """
+    Represents a city with its name, state, country, latitude, and longitude.
+    """
     __tablename__ = 'cities'
 
     id = db.Column(db.Integer, primary_key=True)

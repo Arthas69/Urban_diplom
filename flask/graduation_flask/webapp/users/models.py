@@ -5,6 +5,9 @@ from webapp.db import db
 
 
 class User(db.Model, UserMixin):
+    """
+    User model with username, password, email, visible name, firstname, and lastname fields.
+    """
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,9 +19,15 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String, nullable=True)
 
     def set_password(self, password):
+        """
+        Hash the password before saving it to the database.
+        """
         self.password = generate_password_hash(password)
 
     def check_password(self, password):
+        """
+        Check if the provided password matches the stored hash.
+        """
         return check_password_hash(self.password, password)
 
     def __repr__(self):
