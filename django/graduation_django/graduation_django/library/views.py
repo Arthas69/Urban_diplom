@@ -12,20 +12,30 @@ from .forms import ReviewForm, RegistrationForm, LoginForm
 
 
 def index(request):
+    """
+    This view gets 4 random books from database and renders them on the index page.
+    """
     try:
-        books = random.sample(list(Book.objects.all()), 3)
+        books = random.sample(list(Book.objects.all()), 4)
     except ValueError:
         books = None
     return render(request, 'index.html', {'books': books})
 
 
+#
 def view_author(request, author_id):
+    """
+    This view renders an author's page with their details and their related books.
+    """
     author = Author.objects.get(id=author_id)
     print(request.user)
     return render(request, 'author.html', {'author': author})
 
 
 def view_book(request, book_id):
+    """
+    This view renders a book's page with its details and a form for users to leave reviews.
+    """
     book = Book.objects.get(id=book_id)
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -40,6 +50,9 @@ def view_book(request, book_id):
 
 
 def login_user(request):
+    """
+    This view handles user login and redirects to the next page after successful login.
+    """
     next_url = request.GET.get('next', '/')
 
     if request.method == 'POST':
@@ -60,6 +73,9 @@ def login_user(request):
 
 
 def register_user(request):
+    """
+    This view handles user registration and redirects to the login page after successful registration.
+        """
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -76,10 +92,8 @@ def register_user(request):
 
 
 def logout_user(request):
+    """
+    This view handles user logout and redirects to the index page.
+    """
     logout(request)
     return redirect('index')
-
-
-@login_required
-def view_user(request):
-    pass
