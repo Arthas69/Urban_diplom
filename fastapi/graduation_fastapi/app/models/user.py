@@ -10,4 +10,3 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     password = Column(String)
     events = relationship("Event", back_populates="owner")
-

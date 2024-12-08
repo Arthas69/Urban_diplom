@@ -16,12 +16,14 @@ from app.models import User, Event
 from app.schemas import TokenData, UserCreate, EventCreate
 
 
+# Function to get user by username
 def get_user(
         db: Annotated[Session, Depends(get_db)],
         username: str) -> User | None:
     return db.scalar(select(User).where(username == User.username))
 
 
+# Function to authenticate user
 def authenticate_user(
         db: Annotated[Session, Depends(get_db)],
         username: str,
@@ -31,6 +33,7 @@ def authenticate_user(
         return user
 
 
+# Function that creates JWT token with user data
 def create_access_token(
         data: dict,
         expires_delta: timedelta | None = None):
@@ -44,6 +47,7 @@ def create_access_token(
     return encoded_jwt
 
 
+# Function to get current user from the token
 async def get_current_user(
         db: Annotated[Session, Depends(get_db)],
         token: Annotated[str, Depends(oauth2_scheme)]):
@@ -68,6 +72,7 @@ async def get_current_user(
     return user
 
 
+# Function that creates a new user
 def create_user(
         db: Annotated[Session, Depends(get_db)],
         user_data: UserCreate):
@@ -82,6 +87,7 @@ def create_user(
     }
 
 
+#
 def get_events(db: Annotated[Session, Depends(get_db)], user_data: User):
     return db.scalars(select(Event).where(Event.owner_id == user_data.id)).all()
 

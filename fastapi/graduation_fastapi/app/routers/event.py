@@ -12,9 +12,12 @@ from app.models import User, Event
 from app.routers.helpers import get_current_user, create_event, get_events
 from app.schemas import EventCreate, EventUpdate
 
+
+# Create API router for an event endpoints
 router = APIRouter(prefix='/events', tags=['events'])
 
 
+# Route for new event creation
 @router.post("/")
 async def create_event_view(
         title: Annotated[str, Form()],
@@ -26,23 +29,18 @@ async def create_event_view(
     return RedirectResponse(url="/events/", status_code=status.HTTP_201_CREATED)
 
 
+# Route to get all user's events
 @router.get("/")
 async def read_events(
+        request: Request,
         db: Annotated[Session, Depends(get_db)],
         current_user: Annotated[User, Depends(get_current_user)]):
     events = get_events(db, current_user)
     return events
+    # return templates.TemplateResponse("create_event.html", {"request": request, "events": events})
 
 
-@router.get("/create_event")
-async def create_event_page(request: Request,
-                            db: Annotated[Session, Depends(get_db)],
-                            current_user: Annotated[User, Depends(get_current_user)]):
-    events = get_events(db, current_user)
-    return events
-    # return templates.TemplateResponse("create_event.html", {"request": request})
-
-
+# Update event with specific identifier
 @router.put("/update_event")
 async def update_event_view(
         db: Annotated[Session, Depends(get_db)],
@@ -51,12 +49,14 @@ async def update_event_view(
         current_user: Annotated[User, Depends(get_current_user)]):
     event = db.scalar(select(Event).where(Event.id == event_id))
     if event is None or event.owner_id != current_user.id:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Event not exist or you can't update this event")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Event not exist or you can't update this event"
+        )
 
     db.execute(update(Event).where(Event.id == event_id).values(
         title=new_event.title,
-        description=new_event.description,
-        # datetime=datetime.now()
+        description=new_event.description
     ))
     db.commit()
 
@@ -66,6 +66,7 @@ async def update_event_view(
     }
 
 
+# Delete event from database
 @router.delete('/delete_event')
 async def delete_event_view(db: Annotated[Session, Depends(get_db)],
                             event_id: int,
