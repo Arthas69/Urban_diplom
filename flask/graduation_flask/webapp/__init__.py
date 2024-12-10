@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, url_for
 from flask_login import login_required, LoginManager
 from flask_migrate import Migrate
 
@@ -41,7 +41,7 @@ def create_app():
     @app.route('/', methods=['GET', 'POST'])
     @app.route('/index', methods=['GET', 'POST'])
     def index():
-        return render_template('index.html')
+        return redirect(url_for('weather.get_all_weather_data'))
 
     # Create all tables in DB
     # with app.app_context():

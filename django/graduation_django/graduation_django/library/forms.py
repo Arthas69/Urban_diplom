@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Author
+from .models import Author, Review
 
 
 class RegistrationForm(forms.Form):
@@ -24,7 +24,7 @@ class BookForm(forms.Form):
 
 
 class ReviewForm(forms.Form):
-    content = forms.CharField(widget=forms.Textarea)
+    content = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}), label='', label_suffix='')
 
 
 class AuthorForm(forms.Form):

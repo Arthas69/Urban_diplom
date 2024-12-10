@@ -97,7 +97,6 @@ def my_cities():
         city_data.update({'city_id': city.id})
         data.append(city_data)
 
-    print(data)
     return render_template('weather/my_cities.html', cities=data)
 
 

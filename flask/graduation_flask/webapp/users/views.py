@@ -19,7 +19,8 @@ def registration():
     """
     title = 'Registration'
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('weather.get_all_weather_data'))
+        # return redirect(url_for('index'))
     form = RegistrationForm()
     return render_template('user/registration.html', title=title, form=form)
 
@@ -46,7 +47,8 @@ def process_registration():
         new_user.set_password(form.password.data)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('weather.get_all_weather_data'))
+        # return redirect(url_for('index'))
 
     return render_template('user/registration.html', title=title, form=form)
 
@@ -58,7 +60,8 @@ def login():
     """
     title = 'Sign In'
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('weather.get_all_weather_data'))
+        # return redirect(url_for('index'))
 
     form = LoginForm()
     return render_template('user/login.html', title=title, form=form)
@@ -77,7 +80,8 @@ def process_login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            return redirect(url_for('index'))
+            return redirect(url_for('weather.get_all_weather_data'))
+            # return redirect(url_for('index'))
         else:
             flash('Invalid username or password')
             return redirect(url_for('users.login'))
@@ -100,7 +104,8 @@ def profile(username):
         return render_template('user/users.html', user=user)
     else:
         flash('User does not exist')
-        return redirect(url_for('index'))
+        return redirect(url_for('weather.get_all_weather_data'))
+        # return redirect(url_for('index'))
 
 
 @blueprint.route('/edit_profile', methods=['GET', 'POST'])
