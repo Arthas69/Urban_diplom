@@ -153,7 +153,7 @@ sqlparse==0.5.2
 
 
 ### Приложение на Flask
-Приложение дла просмотра погоды. Пользователь может, введя название города в строке поиска, найти интересующий его город, и узнать в нем погоду. Так же может сохранить его, для того, чтобы в будущем узнать информацию, просто зайдя на свою страницу
+Приложение для просмотра погоды. Пользователь может, введя название города в строке поиска, найти интересующий его город, и узнать в нем погоду. Так же может сохранить его, для того, чтобы в будущем узнать информацию, просто зайдя на свою страницу
 
 #### Структура проекта
 Структура проекта состоит из следующих элементов
@@ -240,6 +240,92 @@ WTForms==3.2.1
 ```
 
 
+### Приложение на FastAPI
+
+#### Структура проекта
+Структура проекта состоит из следующих элементов
+#### Домашняя страница
+Страница показывающая все возможные роуты
+![main.png](images%2Ffastapi%2Fmain.png)
+#### Страница авторизации
+Регистрация:
+![register.png](images%2Ffastapi%2Fregister.png)
+Авторизация:
+![login.png](images%2Ffastapi%2Flogin.png)
+Авторизация с OAuth:
+![authorization.png](images%2Ffastapi%2Fauthorization.png)
+#### CRUD для событий
+Создание события:
+![event_create.png](images%2Ffastapi%2Fevent_create.png)
+Список всех событий текущего пользователя:
+![events_get.png](images%2Ffastapi%2Fevents_get.png)
+Изменение события:
+![event_update.png](images%2Ffastapi%2Fevent_update.png)
+Удаление события:
+![event_delete.png](images%2Ffastapi%2Fevent_delete.png)
+#### Страница с информацией о пользователе
+Вариант если авторизация пройдена успешно и пользователь запросил доступ к странице
+![info_about_user_ok.png](images%2Ffastapi%2Finfo_about_user_ok.png)
+Вариант без авторизации:
+![info_about_user_fail.png](images%2Ffastapi%2Finfo_about_user_fail.png)
+
+#### Приложение: Файловая структура проекта
+![tree.png](images%2Ffastapi%2Ftree.png)
+
+#### Приложение: Запуск проекта
+1. Перейдите в директорию с проектом
+![first.png](images%2Ffastapi%2Ffirst.png)
+2. Создайте виртуальное окружение
+![second.png](images%2Fdjango%2Fsecond.png)
+3. Запустите его
+Для Linux:
+![third.png](images%2Fdjango%2Fthird.png)
+Для Windows:
+![third_win.png](images%2Fdjango%2Fthird_win.png)
+4. Установите зависимости
+![fourth.png](images%2Fdjango%2Ffourth.png)
+5. Сделайте миграцию базы данных
+![mig.png](images%2Ffastapi%2Fmig.png)
+6. Запустите проект
+![start.png](images%2Ffastapi%2Fstart.png)
+
+#### Приложение: requirements.txt
+```
+alembic==1.14.0
+annotated-types==0.7.0
+anyio==4.6.2.post1
+argon2-cffi==23.1.0
+argon2-cffi-bindings==21.2.0
+bcrypt==4.2.1
+cffi==1.17.1
+click==8.1.7
+cryptography==44.0.0
+dnspython==2.7.0
+email_validator==2.2.0
+fastapi==0.115.5
+fastapi-users==14.0.0
+fastapi-users-db-sqlalchemy==6.0.1
+greenlet==3.1.1
+h11==0.14.0
+idna==3.10
+Jinja2==3.1.4
+makefun==1.15.6
+Mako==1.3.6
+MarkupSafe==3.0.2
+passlib==1.7.4
+psycopg2==2.9.10
+pwdlib==0.2.1
+pycparser==2.22
+pydantic==2.10.2
+pydantic_core==2.27.1
+PyJWT==2.9.0
+python-multipart==0.0.17
+sniffio==1.3.1
+SQLAlchemy==2.0.36
+starlette==0.41.3
+typing_extensions==4.12.2
+uvicorn==0.32.1
+```
 
 
 
