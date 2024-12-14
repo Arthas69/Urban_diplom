@@ -16,7 +16,9 @@ class Book(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     publication_date = models.DateField()
-    image = models.CharField(max_length=100, blank=True)
+    # image = models.CharField(max_length=100, blank=True)
+    # image = models.ImageField(upload_to='books', height_field=300, width_field=400)
+    image = models.ImageField(upload_to='books/', null=True, blank=True)
     # rating = models.DecimalField(max_length=)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
 

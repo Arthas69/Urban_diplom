@@ -21,6 +21,7 @@ class BookForm(forms.Form):
     description = forms.CharField(widget=forms.Textarea)
     publication_date = forms.DateField()
     author = forms.ModelChoiceField(Author.objects.all())
+    image = forms.ImageField()
 
 
 class ReviewForm(forms.Form):

@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path
 
@@ -26,7 +28,10 @@ urlpatterns = [
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
     path('register/', register_user, name='register'),
-    path('author/', view_author, name='view-authors'),  # This should be a list of authors, not a single author
+    path('author/', view_author, name='view-authors'),
     path('author/<int:author_id>', view_author, name='view-author'),
     path('book/<int:book_id>', view_book, name='view-book'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

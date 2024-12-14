@@ -13,5 +13,5 @@ class AutorAdmin(admin.ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'publication_date', 'author')
+    list_display = ('title', 'description', 'publication_date', 'author', 'image')
     search_fields = ('title', 'author__last_name')
